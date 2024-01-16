@@ -20,21 +20,14 @@ export default async function AuthButton() {
     return redirect("/login");
   };
 
-  return user ? (
+  return (
     <div className="flex items-center gap-4">
-      Hey, {user.email}!
+      {user?.email}
       <form action={signOut}>
-        <button className="py-2 px-4 rounded-md no-underline bg-btn-background hover:bg-btn-background-hover">
-          Logout
+        <button className="bg-red-700 hover:bg-red-800 transition-colors rounded-md px-4 py-1 text-white">
+          Salir
         </button>
       </form>
     </div>
-  ) : (
-    <Link
-      href="/login"
-      className="py-2 px-3 flex rounded-md no-underline bg-btn-background hover:bg-btn-background-hover"
-    >
-      Login
-    </Link>
   );
 }
