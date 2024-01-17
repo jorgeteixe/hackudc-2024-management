@@ -38,6 +38,10 @@ export const BarcodeScanner = (props: BarcodeScannerProps) => {
     deviceId: selectedDeviceId,
     onDecodeResult(result) {
       props.callback(result.getText());
+
+      if (navigator.vibrate) {
+        navigator.vibrate(200);
+      }
     },
   });
 
