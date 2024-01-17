@@ -11,15 +11,26 @@ export const BarcodeScanner = (props: BarcodeScannerProps) => {
   const [selectedDeviceId, setSelectedDeviceId] = useState<string>("");
 
   useEffect(() => {
-    navigator.mediaDevices.enumerateDevices().then((devices) => {
-      const videoDevices = devices.filter(
-        (device) => device.kind === "videoinput"
-      );
-      setDevices(videoDevices);
-      if (videoDevices.length > 0) {
-        setSelectedDeviceId(videoDevices[0].deviceId);
-      }
-    });
+    navigator.mediaDevices
+      .getUserMedia({ video: true })
+      .then((stream) => {
+        // after gaining access, enumerate devices
+        navigator.mediaDevices.enumerateDevices().then((devices) => {
+          const videoDevices = devices.filter(
+            (device) => device.kind === "videoinput"
+          );
+          setDevices(videoDevices);
+          if (videoDevices.length > 0) {
+            setSelectedDeviceId(videoDevices[0].deviceId);
+          }
+        });
+
+        // stop the stream as we only needed it for access
+        stream.getTracks().forEach((track) => track.stop());
+      })
+      .catch((error) => {
+        console.error("Error accessing media devices.", error);
+      });
   }, []);
 
   const { ref } = useZxing({
@@ -44,7 +55,7 @@ export const BarcodeScanner = (props: BarcodeScannerProps) => {
         >
           {devices.map((device) => (
             <option key={device.deviceId} value={device.deviceId}>
-              {device.label || device.deviceId}
+              {device.label || "Camera"}
             </option>
           ))}
         </select>
