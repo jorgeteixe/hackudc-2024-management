@@ -1,5 +1,4 @@
 import { createClient } from "@/utils/supabase/server";
-import Link from "next/link";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
@@ -21,8 +20,8 @@ export default async function AuthButton() {
   };
 
   return (
-    <div className="flex items-center gap-4">
-      {user?.email}
+    <div className="flex items-center gap-2">
+      <span className="text-sm">{user?.email}</span>
       <form action={signOut}>
         <button className="bg-red-700 hover:bg-red-800 transition-colors rounded-md px-4 py-1 text-white">
           Salir
