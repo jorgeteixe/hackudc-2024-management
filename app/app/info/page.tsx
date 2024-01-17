@@ -31,7 +31,7 @@ export default function Page() {
       </div>
       {isModalOpen && (
         <Modal onClose={handleCloseModal}>
-          <pre>{result.Email}</pre>
+          <pre>{result.toString()}</pre>
         </Modal>
       )}
     </div>
