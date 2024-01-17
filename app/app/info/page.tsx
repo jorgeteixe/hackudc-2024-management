@@ -1,20 +1,32 @@
 "use client";
-import { useState } from "react";
 import { BarcodeScanner } from "@/components/BarcodeScanner";
+import InternalError from "@/components/InternalError";
+import Loader from "@/components/Loading";
+import Modal from "@/components/Modal";
+import NotFound from "@/components/NotFound";
+import ParticipantModalInfo from "@/components/ParticipantModalInfo";
 import Title from "@/components/Title";
-import Modal from "@/components/Modal"; // Import or define your modal component
+import { useState } from "react";
+
+interface Result {
+  error?: number;
+  participant?: string;
+}
 
 export default function Page() {
-  const [result, setResult] = useState("");
+  let modalContent;
+  const [result, setResult] = useState<Result>();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handleBarcodeDetected = (newCode: string) => {
+  const handleBarcodeDetected = (code: string) => {
     if (!isModalOpen) {
-      fetch(`/api/participant?code=${newCode}`)
-        .then((res) => res.json())
-        .then((data) => {
-          setResult(data);
+      setResult(undefined);
+      fetch(`/api/participant?code=${code}`).then((data) => {
+        // TODO: add logic to handle correctly error and success
+        setResult({
+          participant: "John Doe",
         });
+      });
       setIsModalOpen(true);
     }
   };
@@ -23,6 +35,22 @@ export default function Page() {
     setIsModalOpen(false);
   };
 
+  if (isModalOpen) {
+    if (!result) {
+      modalContent = <Loader />;
+    } else {
+      if (result.error === 404) {
+        modalContent = <NotFound />;
+      }
+      if (result.error) {
+        modalContent = <InternalError />;
+      }
+      if (result.participant) {
+        modalContent = <ParticipantModalInfo name={result.participant} />;
+      }
+    }
+  }
+
   return (
     <div className="flex flex-col gap-4 mt-5">
       <Title title="Información QR" />
@@ -30,8 +58,8 @@ export default function Page() {
         <BarcodeScanner callback={handleBarcodeDetected} />
       </div>
       {isModalOpen && (
-        <Modal onClose={handleCloseModal}>
-          <pre>{result.toString()}</pre>
+        <Modal title="Información" onClose={handleCloseModal}>
+          {modalContent}
         </Modal>
       )}
     </div>

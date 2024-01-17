@@ -27,7 +27,7 @@ export default async function Index() {
       </h1>
       <Link href={user ? "/app" : "/login"}>
         <button className="bg-green-700 hover:bg-green-800 transition-colors rounded-md px-4 py-2 text-white mb-2 w-full">
-          {user ? "Go to app" : "Login"}
+          {user ? "Ir a la aplicación" : "Iniciar sesión"}
         </button>
       </Link>
     </div>

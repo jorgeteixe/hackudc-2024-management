@@ -1,6 +1,6 @@
 import Image from "next/image";
-import hackUDCLogo from "../assets/logo.svg";
 import Link from "next/link";
+import hackUDCLogo from "../assets/logo.svg";
 
 export default function HackUDCLogo() {
   return (
