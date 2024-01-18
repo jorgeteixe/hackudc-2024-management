@@ -4,6 +4,7 @@ const options = [
   { name: "🪪 Acreditaciones", href: "checkin" },
   { name: "🍕 Pases de comida", href: "foodpass" },
   { name: "❓ Infomación QR", href: "info" },
+  { name: "📧 Infomación email", href: "email" },
 ];
 
 export default async function Page() {

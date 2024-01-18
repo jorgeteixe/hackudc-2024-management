@@ -4,27 +4,29 @@ import { NextResponse } from "next/server";
 
 export async function GET(request: Request) {
   const requestUrl = new URL(request.url);
-  const code = requestUrl.searchParams.get("code");
+  const id = requestUrl.searchParams.get("id");
 
   const cookieStore = cookies();
   const supabase = createClient(cookieStore);
-  const { data: participant } = await supabase
-    .from("participants")
-    .select()
-    .eq("Email", code)
-    .limit(1);
 
-  if (!code) {
-    return new Response("You must specify a code", {
+  const { data: profileType } = await supabase
+    .from("profile_type")
+    .select()
+    .eq("id", id)
+    .limit(1)
+    .single();
+
+  if (!id) {
+    return new Response("You must specify an id", {
       status: 400,
     });
   }
 
-  if (!participant) {
+  if (!profileType) {
     return new Response("Not found", {
       status: 404,
     });
   }
 
-  return NextResponse.json(participant[0]);
+  return NextResponse.json(profileType);
 }

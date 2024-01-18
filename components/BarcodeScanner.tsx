@@ -6,7 +6,7 @@ type BarcodeScannerProps = {
   paused?: boolean;
 };
 
-export const BarcodeScanner = (props: BarcodeScannerProps) => {
+export default function BarcodeScanner(props: BarcodeScannerProps) {
   const [devices, setDevices] = useState<MediaDeviceInfo[]>([]);
   const [selectedDeviceId, setSelectedDeviceId] = useState<string>("");
 
@@ -66,4 +66,4 @@ export const BarcodeScanner = (props: BarcodeScannerProps) => {
       />
     </div>
   );
-};
+}

@@ -1,10 +1,9 @@
 "use client";
-import { BarcodeScanner } from "@/components/BarcodeScanner";
+import BarcodeScanner from "@/components/BarcodeScanner";
 import InternalError from "@/components/InternalError";
 import Loader from "@/components/Loading";
 import Modal from "@/components/Modal";
 import NotFound from "@/components/NotFound";
-import ParticipantModalInfo from "@/components/ParticipantModalInfo";
 import Title from "@/components/Title";
 import { useState } from "react";
 
@@ -46,7 +45,7 @@ export default function Page() {
         modalContent = <InternalError />;
       }
       if (result.participant) {
-        modalContent = <ParticipantModalInfo name={result.participant} />;
+        // modalContent = <PersonInfo name={result.participant} />;
       }
     }
   }
