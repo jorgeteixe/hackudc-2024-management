@@ -6,7 +6,10 @@ import {
   IconUserHexagon,
 } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
+import MentorInfoByEmail from "./MentorInfoByEmail";
+import ParticipantInfoByEmail from "./ParticipantInfoByEmail";
 import ShowValue from "./ShowValue";
+import SponsorInfoByEmail from "./SponsorInfoByEmail";
 
 type Person = Database["public"]["Tables"]["person"]["Row"];
 type FoodRestriction = Database["public"]["Tables"]["food_restriction"]["Row"];
@@ -49,12 +52,15 @@ export default function PersonInfo(props: { person: Person }) {
   switch (profileType?.name) {
     case "Participante":
       icon = <IconUserCode size={100} className="mx-auto" />;
+      extraInfo = <ParticipantInfoByEmail email={props.person.email} />;
       break;
     case "Sponsor":
       icon = <IconUserHexagon size={100} className="mx-auto" />;
+      extraInfo = <SponsorInfoByEmail email={props.person.email} />;
       break;
     case "Mentor":
       icon = <IconUserCog size={100} className="mx-auto" />;
+      extraInfo = <MentorInfoByEmail email={props.person.email} />;
       break;
   }
 
@@ -63,13 +69,14 @@ export default function PersonInfo(props: { person: Person }) {
       {icon || <div className="h-[100px]"></div>}
       <div className="flex flex-col gap-3">
         <ShowValue name="Nombre" value={props.person.name} />
-        <ShowValue name="Email" value={props.person.email} />
+        <ShowValue name="📧 Email" value={props.person.email} />
         <ShowValue
-          name="Restr. alimentarias"
-          value={foodRestriction?.content || ""}
+          name="🥪 Restr. alimentarias"
+          value={foodRestriction?.content}
         />
-        <ShowValue name="DNI" value={props.person.dni || ""} />
+        <ShowValue name="🪪 DNI" value={props.person.dni || undefined} />
       </div>
+      {extraInfo}
     </div>
   );
 }
