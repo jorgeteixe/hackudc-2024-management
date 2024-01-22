@@ -4,28 +4,39 @@ import InternalError from "@/components/InternalError";
 import Loader from "@/components/Loading";
 import Modal from "@/components/Modal";
 import NotFound from "@/components/NotFound";
+import PersonInfoByEmail from "@/components/PersonInfoByEmail";
 import Title from "@/components/Title";
+import { Database } from "@/types/supabase";
 import { useState } from "react";
 
-interface Result {
-  error?: number;
-  participant?: string;
-}
+type Accreditation = Database["public"]["Tables"]["accreditation"]["Row"];
 
 export default function Page() {
   let modalContent;
-  const [result, setResult] = useState<Result>();
+  const [email, setEmail] = useState<string | undefined>();
+  const [error, setError] = useState<number | undefined>();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleBarcodeDetected = (code: string) => {
     if (!isModalOpen) {
-      setResult(undefined);
-      fetch(`/api/participant?code=${code}`).then((data) => {
-        // TODO: add logic to handle correctly error and success
-        setResult({
-          participant: "John Doe",
+      setEmail(undefined);
+      setError(undefined);
+      fetch(`/api/accreditation?uuid=${code}`)
+        .then(async (data) => {
+          if (data.status === 200) {
+            const result = (await data.json()) as Accreditation;
+            if (result.email) {
+              setEmail(result.email);
+            } else {
+              setError(404);
+            }
+          } else {
+            setError(data.status);
+          }
+        })
+        .catch(() => {
+          setError(500);
         });
-      });
       setIsModalOpen(true);
     }
   };
@@ -35,18 +46,14 @@ export default function Page() {
   };
 
   if (isModalOpen) {
-    if (!result) {
+    if (error === 404) {
+      modalContent = <NotFound />;
+    } else if (error) {
+      modalContent = <InternalError />;
+    } else if (!email) {
       modalContent = <Loader />;
     } else {
-      if (result.error === 404) {
-        modalContent = <NotFound />;
-      }
-      if (result.error) {
-        modalContent = <InternalError />;
-      }
-      if (result.participant) {
-        // modalContent = <PersonInfo name={result.participant} />;
-      }
+      modalContent = <PersonInfoByEmail email={email} />;
     }
   }
 
