@@ -67,7 +67,7 @@ export default function PersonInfo(props: { person: Person }) {
   return (
     <div>
       {icon || <div className="h-[100px]"></div>}
-      <div className="flex flex-col gap-3">
+      <div className="flex flex-col gap-3 mb-3">
         <ShowValue name="Nombre" value={props.person.name} />
         <ShowValue name="📧 Email" value={props.person.email} />
         <ShowValue
