@@ -11,14 +11,19 @@ export async function GET(request: Request) {
   }
 
   try {
-    const qrSvg = await QRCode.toString(code, { type: "svg" });
+    const qrPng = await new Promise<Buffer>((resolve, reject) => {
+      QRCode.toBuffer(code, (err, buffer) => {
+        if (err) reject(err);
+        else resolve(buffer);
+      });
+    });
 
-    return new Response(qrSvg, {
+    return new Response(qrPng, {
       status: 200,
-      headers: { "content-type": "image/svg+xml" },
+      headers: { "Content-Type": "image/png" },
     });
   } catch (err) {
-    return new Response("Error generating QR code", {
+    return new Response("Error generating QR code: " + err, {
       status: 500,
     });
   }
