@@ -21,7 +21,11 @@ export default function BarcodeScanner(props: BarcodeScannerProps) {
           );
           setDevices(videoDevices);
           if (videoDevices.length > 0) {
-            setSelectedDeviceId(videoDevices[0].deviceId);
+            if (videoDevices.length === 7) {
+              setSelectedDeviceId(videoDevices[5].deviceId);
+            } else {
+              setSelectedDeviceId(videoDevices[0].deviceId);
+            }
           }
         });
 
