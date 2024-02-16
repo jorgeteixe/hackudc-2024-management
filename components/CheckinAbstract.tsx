@@ -42,6 +42,7 @@ export default function CheckinAbstract(props: { person: Person }) {
           .then((d: Participant) => {
             setData([
               { key: "Tipo", value: "Participante" },
+              { key: "Créditos", value: d.credits ? "SI ✅" : "NO ❌" },
               { key: "Dormir", value: d.sleep ? "SI" : "NO" },
               { key: "Talla", value: d.shirt_size },
             ]);
