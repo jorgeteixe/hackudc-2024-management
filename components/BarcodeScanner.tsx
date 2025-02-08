@@ -20,13 +20,14 @@ export default function BarcodeScanner(props: BarcodeScannerProps) {
             (device) => device.kind === "videoinput"
           );
           setDevices(videoDevices);
-          if (videoDevices.length > 0) {
-            if (videoDevices.length === 7) {
-              setSelectedDeviceId(videoDevices[5].deviceId);
-            } else {
-              setSelectedDeviceId(videoDevices[0].deviceId);
-            }
+
+          let userCamera = localStorage.getItem("camera");
+
+          if (!userCamera) {
+            userCamera = videoDevices[0].deviceId;
           }
+
+          setSelectedDeviceId(userCamera);
         });
 
         // stop the stream as we only needed it for access
@@ -46,6 +47,7 @@ export default function BarcodeScanner(props: BarcodeScannerProps) {
   });
 
   const handleDeviceChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    localStorage.setItem("camera", event.target.value);
     setSelectedDeviceId(event.target.value);
   };
 
