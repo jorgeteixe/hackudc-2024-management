@@ -17,7 +17,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>
+      <body className="dark:bg-[#181818] dark:text-white">
         <main className="max-w-sm mx-auto">{children}</main>
       </body>
     </html>

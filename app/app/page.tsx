@@ -13,7 +13,7 @@ export default async function Page() {
       {options.map((opt) => {
         return (
           <Link href={`/app/${opt.href}`} key={opt.href}>
-            <div className="border rounded-md text-center hover:bg-gray-50 transition-colors h-16 flex flex-col justify-center text-xl">
+            <div className="border rounded-md text-center dark:hover:bg-[#242424] hover:bg-gray-50 transition-colors h-16 flex flex-col justify-center text-xl">
               <p>{opt.name}</p>
             </div>
           </Link>
