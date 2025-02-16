@@ -8,17 +8,6 @@ export default function MentorInfo(props: { mentor: Mentor }) {
     <div className="flex flex-col gap-3">
       <ShowValue name="👕 Talla" value={props.mentor.shirt_size} />
       <ShowValue
-        name="🏢 Alojamiento"
-        value={props.mentor.sleep ? "SI" : "NO"}
-      />
-      {props.mentor.share_cv && (
-        <ShowValue
-          name="CV"
-          value="Enlace DRIVE"
-          href={props.mentor.cv_link || ""}
-        />
-      )}
-      <ShowValue
         name="📝 Observaciones"
         value={props.mentor.notes || undefined}
       />

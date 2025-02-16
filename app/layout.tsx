@@ -17,8 +17,8 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>
-        <main className="max-w-sm mx-auto">{children}</main>
+      <body className="dark:bg-[#181818] dark:text-white">
+        <main className="md:max-w-sm mx-auto max-w-[95%]">{children}</main>
       </body>
     </html>
   );

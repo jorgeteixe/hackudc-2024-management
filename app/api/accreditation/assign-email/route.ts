@@ -17,6 +17,17 @@ export async function POST(request: Request) {
   const supabase = createClient(cookieStore);
 
   try {
+    const { data } = await supabase
+      .from("accreditation")
+      .select()
+      .eq("uuid", uuid)
+      .limit(1)
+      .single();
+
+    if (data.email != null) {
+      return new Response("UUID already in use", { status: 400 });
+    }
+
     await supabase.from("accreditation").update({ email }).eq("uuid", uuid);
   } catch (e) {
     return new Response("An error ocurred", {

@@ -16,10 +16,10 @@ export default function Modal(props: ModalProps) {
       onClick={props.onClose}
     >
       <div
-        className="relative pb-4 bg-white rounded-lg shadow-lg w-5/6 sm:max-w-screen-sm mx-auto max-h-screen overflow-y-scroll"
+        className="relative pb-4 dark:bg-[#242424] bg-white rounded-lg shadow-lg w-5/6 sm:max-w-screen-sm mx-auto max-h-screen overflow-y-scroll"
         onClick={stopPropagation}
       >
-        <div className="flex justify-between pb-3 pt-4 rounded-t-lg border-b bg-slate-100">
+        <div className="flex justify-between pb-3 pt-4 rounded-t-lg border-b border-b-[#444] dark:bg-[#333] bg-slate-100">
           <div className="pl-4">{props.title}</div>
           <button className="cursor-pointer z-50 pr-4" onClick={props.onClose}>
             <IconX />
