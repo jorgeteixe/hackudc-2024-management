@@ -23,14 +23,7 @@ export async function GET(request: Request) {
       });
     });
 
-    const { error } = await supabase.from("qr_event").insert({ email: code });
-
-    if (error) {
-      console.log(error);
-      return new Response("An error ocurred", {
-        status: 500,
-      });
-    }
+    await supabase.from("qr_event").insert({ email: code });
 
     return new Response(qrPng, {
       status: 200,
