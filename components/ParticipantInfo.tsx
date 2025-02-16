@@ -8,10 +8,6 @@ export default function ParticipantInfo(props: { participant: Participant }) {
     <div className="flex flex-col gap-3">
       <ShowValue name="👕 Talla" value={props.participant.shirt_size} />
       <ShowValue
-        name="🛌 Alojamiento"
-        value={props.participant.sleep ? "SI ✅" : "NO ❌"}
-      />
-      <ShowValue
         name="🎫 Créditos"
         value={props.participant.credits ? "SI ✅" : "NO ❌"}
       />
@@ -28,17 +24,6 @@ export default function ParticipantInfo(props: { participant: Participant }) {
       />
       <ShowValue name="🎓 Nombre estudios" value={props.participant.studies} />
       <ShowValue name="🗓️ Curso" value={props.participant.year?.toString()} />
-      <ShowValue
-        name="❇️ Aceptado"
-        value={props.participant.accepted.toString()}
-      />
-      {props.participant.share_cv && (
-        <ShowValue
-          name="📂 CV"
-          value="Enlace DRIVE"
-          href={props.participant.cv_link || ""}
-        />
-      )}
       <ShowValue
         name="📒 Motivación"
         value={props.participant.motivation || undefined}
