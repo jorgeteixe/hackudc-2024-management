@@ -1,8 +1,13 @@
+import { createClient } from "@/utils/supabase/server";
+import { cookies } from "next/headers";
 import QRCode from "qrcode";
 
 export async function GET(request: Request) {
   const requestUrl = new URL(request.url);
   const code = requestUrl.searchParams.get("code");
+
+  const cookieStore = cookies();
+  const supabase = createClient(cookieStore);
 
   if (!code) {
     return new Response("You must specify a code", {
@@ -17,6 +22,15 @@ export async function GET(request: Request) {
         else resolve(buffer);
       });
     });
+
+    const { error } = await supabase.from("qr_event").insert({ email: code });
+
+    if (error) {
+      console.log(error);
+      return new Response("An error ocurred", {
+        status: 500,
+      });
+    }
 
     return new Response(qrPng, {
       status: 200,
